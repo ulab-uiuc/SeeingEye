@@ -5,7 +5,6 @@ This repository contains the official implementation for the paper **"SeeingEye:
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Features](#features)
 - [Installation](#installation)
 - [Creating Custom Agents](#creating-custom-agents)
 - [Usage](#usage)
@@ -29,52 +28,6 @@ Unlike traditional multimodal models that process vision and text jointly, Seein
 2. **Reasoner Agent** (Text-Only LLM): Performs complex reasoning using visual descriptions
 3. **Agentic Flow**: Structured information exchange enabling text-only models to "see"
 
-## ✨ Features
-
-### Core Components
-
-- **Multi-Agent Framework** ([src/multi-agent/](src/multi-agent/))
-  - Modular agent architecture with base classes and specialized implementations
-  - ReAct pattern (Reasoning + Acting) for systematic problem-solving
-  - Support for tool-calling agents with various capabilities
-  - Planning and execution flow management
-  - MCP (Model Context Protocol) integration for distributed agents
-
-- **Vision-Language Models Support**
-  - Native support for Qwen2.5-VL and Qwen3 models
-  - OpenAI API compatibility
-  - vLLM serving for efficient inference
-  - Flexible model provider abstraction
-
-- **Tool Ecosystem**
-  - Python code execution with sandboxing
-  - File operations and editing (StrReplaceEditor)
-  - Web search and crawling (Crawl4AI)
-  - Browser automation
-  - Data visualization and charting
-  - OCR capabilities
-  - Planning and task decomposition
-
-### Supported Agents
-
-1. **VQA Agent** ([app/agent/vqa.py](src/multi-agent/app/agent/vqa.py))
-   - Visual Question Answering with direct answer selection
-   - Multiple choice question handling
-   - Python execution for calculations
-   - Optimized for benchmark evaluation
-
-2. **Manus Agent** ([app/agent/manus.py](src/multi-agent/app/agent/manus.py))
-   - General-purpose versatile agent
-   - MCP server integration for external tools
-   - Browser automation support
-   - Extensive tool collection
-   - Async initialization pattern
-
-3. **Planning Flow** ([app/flow/planning.py](src/multi-agent/app/flow/planning.py))
-   - Multi-step task planning and execution
-   - Dynamic agent selection based on task type
-   - Progress tracking and status management (NOT_STARTED, IN_PROGRESS, COMPLETED, BLOCKED)
-   - Step-by-step execution with configurable executors
 
 ## 🚀 Installation
 
