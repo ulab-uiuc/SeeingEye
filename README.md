@@ -7,13 +7,9 @@ This repository contains the official implementation for the paper **"SeeingEye:
 - [Overview](#overview)
 - [Features](#features)
 - [Installation](#installation)
-- [Multi-Agent System](#multi-agent-system)
-- [Agent Architecture](#agent-architecture)
 - [Creating Custom Agents](#creating-custom-agents)
-- [Supported Benchmarks](#supported-benchmarks)
 - [Usage](#usage)
 - [Configuration](#configuration)
-- [Project Structure](#project-structure)
 - [Contributing](#contributing)
 
 ## 🎯 Overview
@@ -119,92 +115,6 @@ pip install -e .
 pip install -e ./verl
 ```
 
-## 🤖 Multi-Agent System
-
-The multi-agent system is built on a flexible architecture that supports the SeeingEye agentic information flow pattern.
-
-### Agent Execution Flow
-
-The framework uses a hierarchical execution model:
-
-```
-BaseAgent.run()           # Main execution loop (max_steps iterations)
-└── ReActAgent.step()     # Single reasoning cycle
-    ├── think()           # Decision making (LLM queries with tools)
-    └── act()             # Tool execution
-        └── execute_tool()  # Individual tool calls
-```
-
-**Key Execution Steps:**
-
-1. **`run(request)`**: Main entry point that manages the agent lifecycle
-   - Validates agent state (must be IDLE)
-   - Adds user request to memory
-   - Executes step-by-step loop until completion or max_steps
-   - Handles stuck state detection
-
-2. **`step()`**: Single reasoning cycle implementing the ReAct pattern
-   - Calls `think()` to decide next action
-   - Calls `act()` to execute selected tools
-   - Returns formatted step result
-
-3. **`think()`**: Decision making with LLM
-   - Sends conversation history + available tools to LLM
-   - LLM selects appropriate tools based on context
-   - Updates memory with assistant response
-   - Returns True if tools were selected, False otherwise
-
-4. **`act()`**: Tool execution
-   - Executes each selected tool with arguments
-   - Adds tool results to memory
-   - Handles special tools (e.g., terminate)
-   - Aggregates and returns all tool outputs
-
-### Agent Architecture Example
-
-```python
-from app.agent.vqa import VQAAgent
-from app.agent.manus import Manus
-
-# Create a VQA agent (synchronous initialization)
-vqa_agent = VQAAgent()
-
-# Create a general-purpose agent with MCP support (async initialization)
-manus_agent = await Manus.create()
-
-# Run the agent with a user request
-result = await vqa_agent.run("What color is the car in this image?")
-```
-
-### Flow Management
-
-```python
-from app.flow.planning import PlanningFlow
-
-# Create a planning flow with multiple agents
-flow = PlanningFlow(
-    agents={
-        "planner": planner_agent,
-        "executor": manus_agent,
-        "vqa": vqa_agent
-    },
-    executors=["executor", "vqa"]  # Agents available for task execution
-)
-
-# Execute a complex task with automatic planning
-result = await flow.execute("Analyze this chart and create a summary report")
-```
-
-### Key Components
-
-- **BaseAgent** ([app/agent/base.py](src/multi-agent/app/agent/base.py)): Abstract base class managing state, memory, and execution loop
-- **ReActAgent** ([app/agent/react.py](src/multi-agent/app/agent/react.py)): Implements ReAct pattern (Reasoning + Acting)
-- **ToolCallAgent** ([app/agent/toolcall.py](src/multi-agent/app/agent/toolcall.py)): Concrete agent with LLM tool calling
-- **Flow System** ([app/flow/](src/multi-agent/app/flow/)): Orchestrates multi-agent workflows
-- **MCP Integration** ([app/mcp/](src/multi-agent/app/mcp/)): Model Context Protocol for distributed systems
-
-For detailed architecture information, see [AGENT_ARCHITECTURE.md](src/multi-agent/AGENT_ARCHITECTURE.md).
-
 ## 🛠️ Creating Custom Agents
 
 The framework is designed for easy extensibility. Create custom agents by inheriting from `ToolCallAgent`:
@@ -244,60 +154,6 @@ class MyCustomAgent(ToolCallAgent):
     max_steps: int = 25
 ```
 
-### Agent Types
-
-1. **Programming Agents** (SWE-style)
-   - File system operations
-   - Code execution and debugging
-   - Tools: Bash, StrReplaceEditor, Terminate
-
-2. **General-Purpose Agents** (Manus-style)
-   - Multi-modal capabilities
-   - Web browsing
-   - MCP integration
-   - Tools: PythonExecute, BrowserUseTool, StrReplaceEditor, MCPClientTool
-
-3. **Specialized Agents** (VQA-style)
-   - Domain-specific tasks
-   - Optimized tool sets
-   - Custom prompting strategies
-
-For a complete guide, see [CUSTOM_AGENT_GUIDE.md](src/multi-agent/CUSTOM_AGENT_GUIDE.md).
-
-## 📊 Supported Benchmarks
-
-The framework includes evaluation pipelines for several multimodal benchmarks, demonstrating SeeingEye's effectiveness:
-
-### 1. MMMU & MMMU-Pro
-- **Location**: [benchmark_evaluation/mmmu/](src/multi-agent/benchmark_evaluation/mmmu/), [benchmark_evaluation/mmmu_pro/](src/multi-agent/benchmark_evaluation/mmmu_pro/)
-- **Description**: Massive Multi-discipline Multimodal Understanding benchmark
-- **Features**:
-  - Flow-based evaluation with agentic reasoning
-  - Multiple model backends (Qwen2-VL, GPT-4V)
-  - Support for multi-turn reasoning
-
-### 2. GQA (Visual Reasoning)
-- **Location**: [benchmark_evaluation/GQA/](src/multi-agent/benchmark_evaluation/GQA/)
-- **Description**: Scene graph-based visual question answering
-- **Features**:
-  - Official evaluation pipeline integration
-  - Compositional reasoning support
-
-### 3. OCRBench
-- **Location**: [benchmark_evaluation/ocrbench/](src/multi-agent/benchmark_evaluation/ocrbench/)
-- **Description**: Text recognition and understanding benchmark
-- **Features**:
-  - Multiple OCR metrics (IoU, TEDS, VQA)
-  - Flow-based evaluation
-  - Support for various OCR tasks
-
-### 4. MIA (Multimodal Interaction)
-- **Location**: [benchmark_evaluation/MIA/](src/multi-agent/benchmark_evaluation/MIA/)
-- **Description**: Multi-turn multimodal interaction evaluation
-- **Features**:
-  - Flow-based inference
-  - Conversational context handling
-
 ### Benchmark Integration
 
 The framework provides a modular `FlowExecutor` for easy integration with other benchmarks. See [example_benchmark_integration.md](src/multi-agent/example_benchmark_integration.md) for examples of integrating with:
@@ -315,73 +171,11 @@ cd src/multi-agent
 python main.py --prompt "Your task here" --image "path/to/image.jpg"
 ```
 
-### Benchmark Evaluation
-
-#### MMMU Evaluation
-```bash
-cd src/multi-agent/benchmark_evaluation/mmmu
-python run_mmmu_flow.py --model_path Qwen/Qwen2.5-VL-7B-Instruct
-```
-
-#### MMMU-Pro Evaluation
-```bash
-cd src/multi-agent/benchmark_evaluation/mmmu_pro
-python run_mmmu_pro_flow.py
-```
-
-#### GQA Evaluation
-```bash
-cd src/multi-agent/benchmark_evaluation/GQA
-python run_gqa_official_pipeline.py
-```
-
-#### OCRBench Evaluation
-```bash
-cd src/multi-agent/benchmark_evaluation/ocrbench
-python infer_ocrbench_flow.py
-```
-
-#### MIA Evaluation
-```bash
-cd src/multi-agent/benchmark_evaluation/MIA
-python run_mia_inference_flow.py
-```
-
 ### Serving Models with vLLM
 
 For the SeeingEye architecture, you typically need two models:
 1. **Vision-Language Model** (Translator Agent) - e.g., Qwen2.5-VL-3B
 2. **Text-Only Model** (Reasoner Agent) - e.g., Qwen3-8B
-
-See [docs/vllm_serving_guide.md](docs/vllm_serving_guide.md) for detailed instructions.
-
-**Quick Start:**
-
-```bash
-# Terminal 1: Serve vision-language model (Translator Agent)
-python -m vllm.entrypoints.openai.api_server \
-    --model Qwen/Qwen2.5-VL-3B-Instruct \
-    --port 8000 \
-    --tensor-parallel-size 1 \
-    --gpu-memory-utilization 0.45 \
-    --disable-custom-all-reduce \
-    --enforce-eager \
-    --dtype float16 \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes
-
-# Terminal 2: Serve text-only model (Reasoner Agent)
-python -m vllm.entrypoints.openai.api_server \
-    --model Qwen/Qwen3-8B \
-    --port 8001 \
-    --tensor-parallel-size 1 \
-    --gpu-memory-utilization 0.45 \
-    --disable-custom-all-reduce \
-    --enforce-eager \
-    --dtype float16 \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes
-```
 
 **Important Notes:**
 - Use `python -m vllm.entrypoints.openai.api_server` for multi-modal models
@@ -410,80 +204,6 @@ export WORKSPACE_ROOT="/path/to/workspace"
 - `app/prompt/*.py`: Agent prompts
 - Agent class definitions: Tool configurations
 
-## 📁 Project Structure
-
-```
-MPU-RL/
-├── src/
-│   ├── model.py                    # Model providers and factory
-│   ├── message_types.py            # Message data structures
-│   ├── config.py                   # Configuration management
-│   └── multi-agent/                # Multi-agent system (SeeingEye)
-│       ├── app/
-│       │   ├── agent/              # Agent implementations
-│       │   │   ├── base.py         # Base agent class (state, memory, run loop)
-│       │   │   ├── react.py        # ReAct pattern (think + act)
-│       │   │   ├── toolcall.py     # Tool-calling agent (LLM integration)
-│       │   │   ├── vqa.py          # VQA agent
-│       │   │   ├── manus.py        # General-purpose agent
-│       │   │   └── browser.py      # Browser automation
-│       │   ├── flow/               # Flow management
-│       │   │   ├── base.py         # Base flow
-│       │   │   ├── planning.py     # Planning flow with step tracking
-│       │   │   ├── flow_factory.py # Flow factory
-│       │   │   └── flow_executor.py # Modular flow executor
-│       │   ├── tool/               # Tool implementations
-│       │   │   ├── base.py         # Base tool class
-│       │   │   ├── bash.py         # Shell execution
-│       │   │   ├── python_execute.py # Python code execution
-│       │   │   ├── str_replace_editor.py # File editing
-│       │   │   ├── file_operators.py # File operations
-│       │   │   ├── web_search.py   # Web search (multiple engines)
-│       │   │   ├── planning.py     # Planning tool
-│       │   │   ├── terminate.py    # Task termination
-│       │   │   ├── ocr.py          # OCR capabilities
-│       │   │   ├── mcp_tool.py     # MCP integration
-│       │   │   └── chart_visualization/ # Data visualization
-│       │   ├── prompt/             # Prompt templates
-│       │   │   ├── vqa.py          # VQA prompts
-│       │   │   ├── manus.py        # Manus prompts
-│       │   │   └── planning.py     # Planning prompts
-│       │   ├── sandbox/            # Sandboxed execution
-│       │   │   ├── client.py       # Sandbox client
-│       │   │   └── core/           # Sandbox core
-│       │   ├── mcp/                # MCP integration
-│       │   │   └── server.py       # MCP server
-│       │   ├── llm.py              # LLM interface
-│       │   ├── schema.py           # Data schemas
-│       │   └── logger.py           # Logging utilities
-│       ├── benchmark_evaluation/   # Benchmark evaluation
-│       │   ├── mmmu/               # MMMU benchmark
-│       │   │   ├── run_mmmu_flow.py
-│       │   │   └── dataset_utils.py
-│       │   ├── mmmu_pro/           # MMMU-Pro benchmark
-│       │   │   ├── run_mmmu_pro_flow.py
-│       │   │   └── evaluate.py
-│       │   ├── GQA/                # GQA benchmark
-│       │   │   └── run_gqa_official_pipeline.py
-│       │   ├── MIA/                # MIA benchmark
-│       │   │   └── run_mia_inference_flow.py
-│       │   ├── ocrbench/           # OCRBench
-│       │   │   ├── infer_ocrbench_flow.py
-│       │   │   └── OCRBench_v2_eval/
-│       │   └── utils/              # Evaluation utilities
-│       ├── protocol/               # Agent-to-agent protocol
-│       │   └── a2a/                # A2A protocol implementation
-│       ├── main.py                 # Main entry point
-│       ├── AGENT_ARCHITECTURE.md   # Architecture documentation
-│       ├── CUSTOM_AGENT_GUIDE.md   # Custom agent guide
-│       └── example_benchmark_integration.md # Benchmark integration examples
-├── docs/
-│   └── vllm_serving_guide.md      # vLLM serving guide
-├── requirements.txt                # Python dependencies
-├── setup.py                        # Package setup
-└── README.md                       # This file
-```
-
 ## 🔧 Tools and Utilities
 
 The framework provides a rich set of tools for agentic reasoning:
@@ -510,94 +230,19 @@ The framework provides a rich set of tools for agentic reasoning:
 ### MCP Tools
 - **MCP Client**: Connect to external MCP servers for additional capabilities
 
-## 🎨 Advanced Features
-
-### MCP (Model Context Protocol)
-
-Run distributed agents with MCP servers for extended capabilities:
-
-```bash
-# Start MCP server
-python src/multi-agent/run_mcp_server.py
-
-# Connect agents via MCP
-python src/multi-agent/run_mcp.py
-```
-
-### Agent-to-Agent Protocol
-
-Enable agent communication using A2A protocol for collaborative reasoning:
-
-```python
-from protocol.a2a.app.agent import create_agent
-
-agent = await create_agent("agent_name")
-```
-
-### Custom Tool Development
-
-Create custom tools by inheriting from `BaseTool`:
-
-```python
-from app.tool.base import BaseTool
-
-class MyCustomTool(BaseTool):
-    name: str = "my_tool"
-    description: str = "Does something specific"
-
-    async def execute(self, **kwargs) -> str:
-        # Your tool logic here
-        return "Tool execution result"
-```
-
 ## 📝 Citation
 
 If you use this code in your research, please cite our paper:
 
 ```bibtex
-@article{seeingeye2024,
+@article{seeingeye2025,
   title={SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs},
   author={[Authors]},
   journal={[Journal/Conference]},
-  year={2024}
+  year={2025}
 }
 ```
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-### How to Contribute
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- VERL framework for reinforcement learning integration
-- Qwen team for the vision-language models
-- vLLM for efficient model serving
-- The open-source community for various tools and libraries
-- All benchmark dataset creators and maintainers
-
-## 📮 Contact
-
-For questions and discussions, please open an issue on GitHub.
-
-## 🔗 Related Resources
-
-- [Agent Architecture Documentation](src/multi-agent/AGENT_ARCHITECTURE.md)
-- [Custom Agent Development Guide](src/multi-agent/CUSTOM_AGENT_GUIDE.md)
-- [Benchmark Integration Examples](src/multi-agent/example_benchmark_integration.md)
-- [vLLM Serving Guide](docs/vllm_serving_guide.md)
-
----
-
-**Note**: This is a research project under active development. APIs and features may change.
