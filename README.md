@@ -48,8 +48,8 @@ conda activate seeingeye
 
 2. Clone the repository:
 ```bash
-git clone https://github.com/CharlieDreemur/MPU-RL.git
-cd MPU-RL
+git clone https://github.com/ulab-uiuc/SeeingEye.git
+cd SeeingEye
 ```
 
 3. Install dependencies:
