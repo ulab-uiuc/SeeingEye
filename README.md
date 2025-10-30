@@ -30,7 +30,7 @@ This repository contains the official implementation for the paper **"SeeingEye:
 - **Benchmark Evaluation**: Extensive evaluation suite for popular VQA benchmarks (MMMU, MMMU-Pro, GQA, OCRBench, MIA)
 - **Modular Design**: Easy to extend with custom agents and tools
 <div align="center">
-  <img src="assets/SeeingEye.png" alt="SeeingEye Logo" width="400"/>
+  <img src="assets/SeeingEye.png" alt="SeeingEye Logo" width="700"/>
 
   **Overall Architecture**
 
@@ -191,6 +191,19 @@ The framework provides a rich set of tools for agentic reasoning:
 ### MCP Tools
 - **MCP Client**: Connect to external MCP servers for additional capabilities
 
+
+## 🙏 Acknowledgments & Upstream
+This project includes code adapted from
+- **OpenManus** — https://github.com/FoundationAgents/OpenManus
+
+  License: MIT  
+  Copyright (c) 2025 FoundationAgents
+- **vLLM** — https://github.com/vllm-project/vllm
+    
+    License: Apache-2.0. 
+
+We thank those authors and community for their work and tooling.
+
 ## 📝 Citation
 
 If you use this code in your research, please cite our paper:
@@ -207,3 +220,8 @@ If you use this code in your research, please cite our paper:
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+
+## 📄 License
+
+SeeingEye is released under the **MIT License**. See [LICENSE](LICENSE).
