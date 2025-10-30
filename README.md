@@ -2,6 +2,15 @@
 
 This repository contains the official implementation for the paper **"SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs"**. The project demonstrates how text-only language models can achieve multimodal reasoning capabilities through sophisticated agentic information flow, using a multi-agent framework with specialized agents for vision and reasoning tasks.
 
+<div align="center">
+  <img src="assets/logo.png" alt="SeeingEye Logo" width="200"/>
+
+  **SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs**
+
+  [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b.svg)](https://arxiv.org/abs/2510.25092)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+</div>
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
@@ -20,6 +29,12 @@ This repository contains the official implementation for the paper **"SeeingEye:
 - **Tool-Augmented Reasoning**: ReAct pattern with tool calling for step-by-step reasoning
 - **Benchmark Evaluation**: Extensive evaluation suite for popular VQA benchmarks (MMMU, MMMU-Pro, GQA, OCRBench, MIA)
 - **Modular Design**: Easy to extend with custom agents and tools
+<div align="center">
+  <img src="assets/SeeingEye.png" alt="SeeingEye Logo" width="400"/>
+
+  **Overall Architecture**
+
+</div>
 
 ### Key Innovation
 
@@ -39,17 +54,16 @@ Unlike traditional multimodal models that process vision and text jointly, Seein
 - vLLM for model serving
 
 ### Setup
-
-1. Create a conda environment:
-```bash
-conda create -n seeingeye python=3.12
-conda activate seeingeye
-```
-
-2. Clone the repository:
+1. Clone the repository:
 ```bash
 git clone https://github.com/ulab-uiuc/SeeingEye.git
 cd SeeingEye
+```
+
+2. Create a conda environment:
+```bash
+conda create -n seeingeye python=3.12
+conda activate seeingeye
 ```
 
 3. Install dependencies:
@@ -60,12 +74,6 @@ pip install -r requirements.txt
 4. Install the package:
 ```bash
 pip install -e .
-```
-
-5. (Optional) Install VERL for reinforcement learning:
-```bash
-# VERL is included as a git submodule
-pip install -e ./verl
 ```
 
 ## 🛠️ Creating Custom Agents
@@ -190,8 +198,8 @@ If you use this code in your research, please cite our paper:
 ```bibtex
 @article{seeingeye2025,
   title={SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs},
-  author={[Authors]},
-  journal={[Journal/Conference]},
+  author={Weijia Zhang, Zijia Liu, Haoru Li, Haoqi Chen, Jiaxuan You},
+  journal={arXiv preprint arXiv:2510.25092},
   year={2025}
 }
 ```
