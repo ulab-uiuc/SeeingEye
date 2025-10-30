@@ -207,7 +207,7 @@ If you use this code in your research, please cite our paper:
 ```bibtex
 @article{seeingeye2025,
   title={SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs},
-  author={Zhang, Weijia; Liu, Zijia; Li, Haoru; Chen, Haoqi; You, Jiaxuan},
+  author={Zhang, Weijia and Liu, Zijia and Li, Haoru and Chen, Haoqi and You, Jiaxuan},
   journal={arXiv preprint arXiv:2510.25092},
   year={2025}
 }
