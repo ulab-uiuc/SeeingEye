@@ -1,6 +1,3 @@
-# SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs
-
-This repository contains the official implementation for the paper **"SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs"**. The project demonstrates how text-only language models can achieve multimodal reasoning capabilities through sophisticated agentic information flow, using a multi-agent framework with specialized agents for vision and reasoning tasks.
 
 <div align="center">
   <img src="assets/logo.png" alt="SeeingEye Logo" width="200"/>
@@ -10,6 +7,9 @@ This repository contains the official implementation for the paper **"SeeingEye:
   [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b.svg)](https://arxiv.org/abs/2510.25092)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 </div>
+# SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs
+
+This repository contains the official implementation for the paper **"SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs"**. The project demonstrates how text-only language models can achieve multimodal reasoning capabilities through sophisticated agentic information flow, using a multi-agent framework with specialized agents for vision and reasoning tasks.
 
 ## 📋 Table of Contents
 
@@ -71,10 +71,6 @@ conda activate seeingeye
 pip install -r requirements.txt
 ```
 
-4. Install the package:
-```bash
-pip install -e .
-```
 
 ## 🛠️ Creating Custom Agents
 
@@ -211,7 +207,7 @@ If you use this code in your research, please cite our paper:
 ```bibtex
 @article{seeingeye2025,
   title={SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs},
-  author={Weijia Zhang, Zijia Liu, Haoru Li, Haoqi Chen, Jiaxuan You},
+  author={Zhang, Weijia; Liu, Zijia; Li, Haoru; Chen, Haoqi; You, Jiaxuan},
   journal={arXiv preprint arXiv:2510.25092},
   year={2025}
 }
