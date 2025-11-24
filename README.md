@@ -1,3 +1,4 @@
+**We plan to release our code in December**
 
 <div align="center">
   <img src="assets/logo.png" alt="SeeingEye Logo" width="200"/>
