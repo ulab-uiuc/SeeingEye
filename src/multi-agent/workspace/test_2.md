@@ -1,0 +1,2 @@
+Question: <image 1> by Mark Gertler can be found in the Touchstones Rochdale museum. Which artist belonging to the Bloomsbury group was Gertler in a relationship with?
+Options: ['Vanessa Bell', 'Eileen Agar', 'Dora Carrington', 'Leonora Carrington']

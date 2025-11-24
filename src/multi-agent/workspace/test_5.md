@@ -1,0 +1,2 @@
+Question: <image 1> A battery, an ammeter, three resistors, and a switch are connected to form the simple circuit shown above. When the switch is closed what would happen to the potential difference across the 15 ohm resistor?
+Options: ['it would equal the potential difference across the 20 ohm resistor', 'it would be twice the potential difference across the 30 ohm resistor', 'it would equal the potential difference across the 30 ohm resistor', 'it would be half the potential difference across the 30 ohm resistor']

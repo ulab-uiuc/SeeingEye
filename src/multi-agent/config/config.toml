@@ -1,0 +1,351 @@
+# Global LLM configuration (default - keeping your OpenAI setup for backwards compatibility)
+[llm]
+model = "gpt-4o-mini"
+base_url = "https://api.openai.com/v1"
+api_key = ""
+max_tokens = 4096                          # Maximum number of tokens in the response
+temperature = 0.0                          # Controls randomness
+api_type = "openai"                        # Keep as default
+
+[flow]
+max_iterations = 3
+max_steps = 3
+# ===== MODEL CONFIGURATIONS =====
+# Qwen2.5-VL-3B-Instruct - Vision-Language Model (Official MMMU Settings)
+[llm.qwen2_5_vl_3b]
+model = "Qwen/Qwen2.5-VL-3B-Instruct"      # 3B vision model for multimodal tasks
+api_type = "vllm"                          # Use vLLM for efficient inference
+max_tokens = 4096                          # Sufficient for visual descriptions
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+use_custom_prompt = true                   # Official MMMU setting
+min_pixels = 1003520                       # Official MMMU setting (1280*28*28)
+max_pixels = 4014080                       # Official MMMU setting (5120*28*28)
+base_url = ""                              # Not needed for vLLM
+api_key = ""                               # Not needed for vLLM
+# vLLM specific settings - GLIBC compatibility fixes
+tensor_parallel_size = 1
+gpu_memory_utilization = 0.95
+disable_custom_all_reduce = true
+enforce_eager = true
+max_model_len = 8192
+
+# Qwen2.5-VL-3B-Instruct - DashScope API Version
+[llm.translator]
+model = "qwen2.5-vl-3b-instruct"                     # DashScope model name
+api_type = "dashscope"                     # Use DashScope API
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 120                              # Request timeout in seconds
+retry = 3                                  # Number of retries
+wait = 5                                   # Wait time between retries
+
+# Qwen2.5-VL-7B-Instruct - Larger Vision-Language Model (Official MMMU Settings)
+[llm.qwen2_5_vl_7b]
+model = "Qwen/Qwen2.5-VL-7B-Instruct"      # 7B vision model for better quality
+api_type = "vllm"
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+use_custom_prompt = true                   # Official MMMU setting
+min_pixels = 1003520                       # Official MMMU setting (1280*28*28)
+max_pixels = 4014080                       # Official MMMU setting (5120*28*28)
+base_url = ""
+api_key = ""
+tensor_parallel_size = 1
+gpu_memory_utilization = 0.7               # Higher memory usage
+
+# Qwen3-8B - DashScope API Version
+[llm.text_only_reasoning]
+model = "qwen3-8b"                      # DashScope model name for larger model
+api_type = "dashscope"                     # Use DashScope API
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 120                              # Request timeout in seconds
+retry = 3                                  # Number of retries
+wait = 5                                   # Wait time between retries
+
+# Qwen3-8B - Text-Only Model (Official MMMU Settings)
+[llm.qwen3_8b]
+model = "Qwen/Qwen3-8B"                    # 8B text model for reasoning tasks
+api_type = "vllm"                          # Use vLLM for efficient inference
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+base_url = ""                              # Not needed for vLLM
+api_key = ""                               # Not needed for vLLM
+# vLLM specific settings - GLIBC compatibility fixes
+tensor_parallel_size = 1
+gpu_memory_utilization = 0.95
+disable_custom_all_reduce = true
+enforce_eager = true
+max_model_len = 8192
+
+# ===== MMMU PRO CONFIGURATIONS =====
+# Qwen2.5-VL-7B-Instruct - DashScope API Version for MMMU PRO
+[llm.qwen2_5_vl_7b_dashscope]
+model = "qwen2.5-vl-7b-instruct"          # DashScope model name for 7B model
+api_type = "dashscope"                     # Use DashScope API
+api_key = ""  # DashScope API key
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU PRO setting
+top_p = 0.001                              # Official MMMU PRO setting
+top_k = 1                                  # Official MMMU PRO setting
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 120                              # Request timeout in seconds
+retry = 3                                  # Number of retries
+wait = 5                                   # Wait time between retries
+# Official MMMU PRO vision settings
+use_custom_prompt = true                   # Official MMMU PRO setting
+min_pixels = 1003520                       # Official MMMU PRO setting (1280*28*28)
+max_pixels = 4014080                       # Official MMMU PRO setting (5120*28*28)
+
+# Qwen2.5-VL-32B-Instruct - DashScope API Version for MMMU PRO
+[llm.qwen2_5_vl_32b]
+model = "qwen2.5-vl-32b-instruct"          # DashScope model name for 32B model
+api_type = "dashscope"                     # Use DashScope API
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU PRO setting
+top_p = 0.001                              # Official MMMU PRO setting
+top_k = 1                                  # Official MMMU PRO setting
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 300                              # Extended timeout for 32B model (5 minutes)
+retry = 3                                  # Number of retries
+wait = 5                                   # Wait time between retries
+# Official MMMU PRO vision settings
+use_custom_prompt = true                   # Official MMMU PRO setting
+min_pixels = 1003520                       # Official MMMU PRO setting (1280*28*28)
+max_pixels = 4014080                       # Official MMMU PRO setting (5120*28*28)
+
+# GPT-4o-mini - OpenAI API for MMMU PRO
+[llm.gpt4o_mini]
+model = "gpt-4o-mini"                      # OpenAI model name
+api_type = "openai"                        # Use OpenAI API
+base_url = "https://api.openai.com/v1"     # OpenAI API endpoint
+max_tokens = 4096                          # Sufficient for MMMU PRO responses
+temperature = 0.0                          # Deterministic responses for evaluation
+top_p = 1.0                                # Default OpenAI setting
+# Note: API key should be set via OPENAI_API_KEY environment variable
+
+# ===== MIA-BENCH CONFIGURATIONS =====
+# MIA-Bench specific model configurations for instruction following evaluation
+# These inherit from the base model configs but may have MIA-specific settings
+
+[llm.mia_qwen2_5_vl_3b]
+model = "Qwen/Qwen2.5-VL-3B-Instruct"      # 3B vision model for MIA evaluation
+api_type = "vllm"                           # Use vLLM for efficient inference
+max_tokens = 4096                           # Sufficient for MIA responses
+temperature = 0.0                           # Deterministic for evaluation
+top_p = 0.001                               # Focused sampling
+top_k = 1                                   # Most likely token
+use_custom_prompt = true                    # Enable custom prompting
+min_pixels = 1003520                        # Vision model settings
+max_pixels = 4014080                        # Vision model settings
+base_url = ""
+api_key = ""
+tensor_parallel_size = 1
+gpu_memory_utilization = 0.95
+disable_custom_all_reduce = true
+enforce_eager = true
+max_model_len = 8192
+
+[llm.mia_qwen2_5_vl_7b]
+model = "Qwen/Qwen2.5-VL-7B-Instruct"      # 7B vision model for MIA evaluation
+api_type = "vllm"
+max_tokens = 4096
+temperature = 0.0                           # Deterministic for evaluation
+top_p = 0.001
+top_k = 1
+use_custom_prompt = true
+min_pixels = 1003520
+max_pixels = 4014080
+base_url = ""
+api_key = ""
+tensor_parallel_size = 1
+gpu_memory_utilization = 0.7
+
+[llm.mia_qwen2_5_vl_32b]
+model = "qwen2.5-vl-32b-instruct"           # 32B model via DashScope for MIA
+api_type = "dashscope"
+max_tokens = 4096
+temperature = 0.0                           # Deterministic for evaluation
+top_p = 0.001
+top_k = 1
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 300                               # Extended timeout for 32B model
+retry = 3
+wait = 5
+use_custom_prompt = true
+min_pixels = 1003520
+max_pixels = 4014080
+
+[llm.mia_gpt4o_mini]
+model = "gpt-4o-mini"                       # GPT-4o-mini for MIA evaluation
+api_type = "openai"
+base_url = "https://api.openai.com/v1"
+max_tokens = 4096
+temperature = 0.0                           # Deterministic for evaluation
+top_p = 1.0
+
+# DashScope API 支持的 3B 和 7B 模型 (如果你想用API而不是本地vLLM)
+[llm.mia_qwen2_5_vl_3b_dashscope]
+model = "qwen2.5-vl-3b-instruct"           # 3B model via DashScope API
+api_type = "dashscope"
+api_key = ""                               # Set DASHSCOPE_API_KEY environment variable
+max_tokens = 4096
+temperature = 0.0                           # Deterministic for evaluation
+top_p = 0.001
+top_k = 1
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 120
+retry = 3
+wait = 5
+use_custom_prompt = true
+min_pixels = 1003520
+max_pixels = 4014080
+
+[llm.mia_qwen2_5_vl_7b_dashscope]
+model = "qwen2.5-vl-7b-instruct"           # 7B model via DashScope API
+api_type = "dashscope"
+max_tokens = 4096
+temperature = 0.0                           # Deterministic for evaluation
+top_p = 0.001
+top_k = 1
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+timeout = 180                               # Longer timeout for 7B model
+retry = 3
+wait = 5
+use_custom_prompt = true
+min_pixels = 1003520
+max_pixels = 4014080
+
+# ===== LOCAL API CONFIGURATIONS (vLLM Served Models) =====
+# Qwen2.5-VL-3B via Local vLLM API Server
+[llm.translator_api]
+model = "Qwen/Qwen2.5-VL-3B-Instruct"     # Model name for API
+api_type = "openai"                        # Use OpenAI-compatible API
+base_url = "http://localhost:8000/v1"      # Local vLLM server endpoint
+api_key = "dummy"                          # Dummy key for local server
+max_tokens = 4096
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+repetition_penalty = 1.1                   # Repetition penalty to reduce repetitive text
+# Qwen3-8B via Local vLLM API Server
+[llm.reasoning_api]
+model = "Qwen/Qwen3-8B"                    # Model name for API
+api_type = "openai"                        # Use OpenAI-compatible API
+base_url = "http://localhost:8001/v1"      # Local vLLM server endpoint
+api_key = "dummy"                          # Dummy key for local server
+max_tokens = 4096                         # Can use full tokens with auto context length
+temperature = 0.01                         # Official MMMU setting
+top_p = 0.001                              # Official MMMU setting
+top_k = 1                                  # Official MMMU setting
+repetition_penalty = 1.1                   # Repetition penalty to reduce repetitive text
+
+# [llm] # Amazon Bedrock
+# api_type = "aws"                                       # Required
+# model = "us.anthropic.claude-3-7-sonnet-20250219-v1:0" # Bedrock supported modelID
+# base_url = "bedrock-runtime.us-west-2.amazonaws.com"   # Not used now
+# max_tokens = 1024
+# temperature = 1.0
+# api_key = "bear"                                       # Required but not used for Bedrock
+
+# [llm] #AZURE OPENAI:
+# api_type= 'azure'
+# model = "YOUR_MODEL_NAME" #"gpt-4o-mini"
+# base_url = "{YOUR_AZURE_ENDPOINT.rstrip('/')}/openai/deployments/{AZURE_DEPLOYMENT_ID}"
+# api_key = "AZURE API KEY"
+# max_tokens = 8096
+# temperature = 0.0
+# api_version="AZURE API VERSION" #"2024-08-01-preview"
+
+# [llm] #OLLAMA:
+# api_type = 'ollama'
+# model = "llama3.2"
+# base_url = "http://localhost:11434/v1"
+# api_key = "ollama"
+# max_tokens = 4096
+# temperature = 0.0
+
+# Optional configuration for specific LLM models
+# [llm.vision]
+# model = "claude-3-7-sonnet-20250219"       # The vision model to use
+# base_url = "https://api.anthropic.com/v1/" # API endpoint URL for vision model
+# api_key = "YOUR_API_KEY"                   # Your API key for vision model
+# max_tokens = 1024                          # Maximum number of tokens in the response
+# temperature = 0.0                          # Controls randomness for vision model
+
+# [llm.vision] #OLLAMA VISION:
+# api_type = 'ollama'
+# model = "llama3.2-vision"
+# base_url = "http://localhost:11434/v1"
+# api_key = "ollama"
+# max_tokens = 4096
+# temperature = 0.0
+
+# Optional configuration for specific browser configuration
+# [browser]
+# Whether to run browser in headless mode (default: false)
+#headless = false
+# Disable browser security features (default: true)
+#disable_security = true
+# Extra arguments to pass to the browser
+#extra_chromium_args = []
+# Path to a Chrome instance to use to connect to your normal browser
+# e.g. '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+#chrome_instance_path = ""
+# Connect to a browser instance via WebSocket
+#wss_url = ""
+# Connect to a browser instance via CDP
+#cdp_url = ""
+
+# Optional configuration, Proxy settings for the browser
+# [browser.proxy]
+# server = "http://proxy-server:port"
+# username = "proxy-username"
+# password = "proxy-password"
+
+# Optional configuration, Search settings.
+# [search]
+# Search engine for agent to use. Default is "Google", can be set to "Baidu" or "DuckDuckGo" or "Bing".
+#engine = "Google"
+# Fallback engine order. Default is ["DuckDuckGo", "Baidu", "Bing"] - will try in this order after primary engine fails.
+#fallback_engines = ["DuckDuckGo", "Baidu", "Bing"]
+# Seconds to wait before retrying all engines again when they all fail due to rate limits. Default is 60.
+#retry_delay = 60
+# Maximum number of times to retry all engines when all fail. Default is 3.
+#max_retries = 3
+# Language code for search results. Options: "en" (English), "zh" (Chinese), etc.
+#lang = "en"
+# Country code for search results. Options: "us" (United States), "cn" (China), etc.
+#country = "us"
+
+
+## Sandbox configuration
+#[sandbox]
+#use_sandbox = false
+#image = "python:3.12-slim"
+#work_dir = "/workspace"
+#memory_limit = "1g"  # 512m
+#cpu_limit = 2.0
+#timeout = 300
+#network_enabled = true
+
+# MCP (Model Context Protocol) configuration
+[mcp]
+server_reference = "app.mcp.server" # default server module reference
+
+# Optional Runflow configuration
+# Your can add additional agents into run-flow workflow to solve different-type tasks.
+[runflow]
+use_data_analysis_agent = false     # The Data Analysi Agent to solve various data analysis tasks

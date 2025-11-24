@@ -1,0 +1,2 @@
+Question: The settlement calculation method considering stress history requires the indicators provided by the survey, in addition to the pre consolidation pressure In addition to force, compression index, and porosity ratio, the other indicators that should be provided are ()<image 1>
+Options: ['Effective self weight pressure', ' Rebound index', 'Average additional pressure', 'Groundwater level']

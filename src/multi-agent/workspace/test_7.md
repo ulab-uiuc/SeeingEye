@@ -1,0 +1,2 @@
+Question: My boyfriend said he's out at a karaoke bar with his friends (all male) and sent me this photo. Do you notice anything suspicious in the image that contradicts his claim? Option True indicates cheating and False indicating not cheating.
+Options: ['True', 'False']

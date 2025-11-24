@@ -156,6 +156,26 @@ export OPENAI_API_KEY="your-api-key"
 export WORKSPACE_ROOT="/path/to/workspace"
 ```
 
+### Azure Computer Vision API (OCR Tool)
+
+The OCR tool requires Azure Computer Vision API credentials. Configure the following in `src/multi-agent/app/tool/ocr.py`:
+
+```python
+# Azure Computer Vision API configuration
+subscription_key: str = "your-azure-subscription-key"
+endpoint: str = "https://your-resource-name.cognitiveservices.azure.com/"
+ocr_url: str = endpoint + "vision/v2.1/ocr"
+headers: dict = {
+    "Ocp-Apim-Subscription-Key": subscription_key,
+    "Content-Type": "application/octet-stream"
+}
+```
+
+To obtain these credentials:
+1. Create an Azure Computer Vision resource in the [Azure Portal](https://portal.azure.com/)
+2. Navigate to your resource and find the **Keys and Endpoint** section
+3. Copy the subscription key and endpoint URL
+
 ### Configuration Files
 
 - `config/config.toml`: Main configuration
