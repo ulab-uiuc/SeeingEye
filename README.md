@@ -10,8 +10,6 @@
 
 This repository contains the official implementation for the paper **"SeeingEye: Agentic Information Flow Unlocks Multimodal Reasoning in Text-Only LLMs"**. The project demonstrates how text-only language models can achieve multimodal reasoning capabilities through sophisticated agentic information flow, using a multi-agent framework with specialized agents for vision and reasoning tasks.
 
-**We plan to release our full code in December!**
-
 ## 📋 Table of Contents
 
 - [Overview](#overview)
